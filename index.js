@@ -38,18 +38,18 @@ bot.onText(/\/curse/, (msg, match) => {
 
 bot.on('callback_query', query=>{
     const id = query.message.chat.id;
-    request('https://cbu.uz/ru/arkhiv-kursov-valyut/json/', function (error, response, body){
+    request('https://cbu.uz/ru/services/open_data/rates/json/', function (error, response, body){
         const data = JSON.parse(body);
-        const result = data.filter(item => item.Ccy === query.data)[0];
+        const result = data.filter(item => item.G1 === query.data)[0];
         const flag = {
             'EUR' : '🇪🇺',
             'USD' : '🇺🇸',
             'RUB' : '🇷🇺'
         }
         let md = `
-        *${flag[result.Ccy]} ${result.Nominal} ${result.Ccy} 💱 ${result.Rate} UZS🇺🇿*
-        ${result.CcyNm_RU}
-        _${result.Date}_
+        *${flag[result.G1]} ${result.G3} ${result.G1} 💱 ${result.G4} UZS🇺🇿*
+        ${result.G6}
+        _${result.G5}_
         `;
 
         bot.sendMessage(id, md, {parse_mode: 'Markdown'})
